@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 /**
  * {Project Description Here}
  */
@@ -33,9 +36,38 @@
 public class MemMan {
     /**
      * @param args
-     *            Command line parameters
+     *             Command line parameters
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // This is the main file for the program.
+        if (args.length < 3) {
+            System.out.println("Missing arguments. Must be 3");
+            System.exit(1);
+        }
+        BufferedReader input = new BufferedReader(new FileReader(args[2]));
+        try {
+            String line = input.readLine();
+            String[] command;
+            while (line != null) {
+                command = line.split(" ", 2);
+
+                if (command[0].equals("add")) {
+                    // add command
+                } else if (command[0].equals("delete")) {
+                    // delete command
+                } else if (command[0].equals("update")) {
+                    // update command
+                } else {
+                    // print command
+                }
+                line = input.readLine();
+            }
+
+        } catch (Error e) {
+            System.out.println("System is invalid");
+        } finally {
+            input.close();
+        }
+
     }
 }

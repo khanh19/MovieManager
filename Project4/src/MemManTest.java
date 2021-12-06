@@ -15,11 +15,12 @@ public class MemManTest extends TestCase {
         // Nothing Here
     }
 
-
     /**
      * Get code coverage of the class declaration.
+     * 
+     * @throws Exception
      */
-    public void testRInit() {
+    public void testRInit() throws Exception {
         MemMan manager = new MemMan();
         assertNotNull(manager);
         MemMan.main(null);
