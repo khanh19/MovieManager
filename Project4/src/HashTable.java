@@ -117,4 +117,13 @@ public class HashTable<K extends Comparable<K>, V> {
         System.out.println("Name hash table size doubled to " + hashSize + " slots.");
     }
 
+    public void dump() {
+        for (int i = 0; i < this.hashSize; i++) {
+            if (this.table[i] != null && this.table[i].getKey() != null) {
+                System.out.println("|" + this.table[i].getKey() + "|" + i);
+            }
+        }
+        System.out.println("Total records: " + this.currSize);
+    }
+
 }
