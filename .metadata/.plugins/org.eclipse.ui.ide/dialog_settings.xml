@@ -6,7 +6,11 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="/Users/apple/Desktop/CS3114/MovieManager-main"/>
+			<item value="/Users/apple/Desktop/CS3114Proj1-master"/>
 			<item value="E:\cs\project4\MovieManager\Project4"/>
 		</list>
+	</section>
+	<section name="ExternalProjectImportWizard">
 	</section>
 </section>

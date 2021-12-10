@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <dirs>
-    <entry loc="C:\Program Files\Eclipse Foundation\jdk-16.0.2.7-hotspot" stamp="1631986203620"/>
+    <entry loc="/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home" stamp="1618964067000"/>
+    <entry loc="/Library/Java/JavaVirtualMachines/jdk1.8.0_291.jdk/Contents/Home" stamp="1617846078000"/>
+    <entry loc="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home" stamp="1617845461000"/>
 </dirs>
