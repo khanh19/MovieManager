@@ -53,37 +53,32 @@ public class MemMan {
 		String[] check;
 		while (input.hasNext()) {
 			String cuong = input.nextLine();
-			if(!cuong.isEmpty()) {
-				String splitStr = cuong.replaceAll("^\s+", "");                     
-				String delims = "[ <>\t]+";                     
+			if (!cuong.isEmpty()) {
+				String splitStr = cuong.replaceAll("^\\s+", "");
+				String delims = "[ <>\t]+";
 				check = splitStr.split(delims);
-				if(check[0].equals("add")) {
+				if (check[0].equals("add")) {
 					String output = "";
-					for(int i = 1; i < check.length; i++) {
+					for (int i = 1; i < check.length; i++) {
 						output += check[i] + " ";
 					}
 					output = output.strip();
 					add(hash, output, man.insert(output.getBytes(), output.getBytes().length));
-				}
-				else if(check[0].equals("print")){
-					if(check[1].equals("hashtable")) {
+				} else if (check[0].equals("print")) {
+					if (check[1].equals("hashtable")) {
 						hash.dump();
-					}
-					else {
+					} else {
 						man.dump();
 					}
-				}
-				else if(check[0].equals("update")) {
-					if(check[1].equals("add")) {
+				} else if (check[0].equals("update")) {
+					if (check[1].equals("add")) {
 						System.out.println("add");
-					}
-					else {
+					} else {
 						System.out.println("delete");
 					}
-				}
-				else if(check[0].equals("delete")) {
+				} else if (check[0].equals("delete")) {
 					String output = "";
-					for(int i = 1; i < check.length; i++) {
+					for (int i = 1; i < check.length; i++) {
 						output += check[i] + " ";
 					}
 					output = output.strip();
@@ -91,7 +86,6 @@ public class MemMan {
 				}
 			}
 		}
-			
 
 	}
 
