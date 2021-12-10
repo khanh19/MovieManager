@@ -9,8 +9,9 @@ import java.io.FileReader;
  * The class containing the main method. Extend with your code, and update this
  * docblock
  *
- * @author {Your Name Here}
- * @version {Put Something Here}
+ * @author Cuong Pham
+ * @author Khanh Pham
+ * @version 12/9/2021
  */
 
 // On my honor:
@@ -70,4 +71,5 @@ public class MemMan {
         }
 
     }
+
 }
