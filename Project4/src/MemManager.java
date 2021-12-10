@@ -230,7 +230,8 @@ public class MemManager {
     private boolean detachBlock(int position, int blockSize) {
         for (FreeBlock blocker : freeList) {
             if (blocker.getBlockSize() == blockSize) {
-                blocker.getPositionList().remove(position);
+            	//just fix here
+                blocker.getPositionList().remove((Object)position);
                 if (blocker.getPositionList().isEmpty()) {
                     freeList.remove(blocker);
                 }
@@ -293,7 +294,8 @@ public class MemManager {
             int c = 0;
             LinkedList<Integer> lList = freeList.get(i).getPositionList();
             FreeBlock block = freeList.get(i);
-            do {
+            //fix here
+            while (!((c > (lList.size() - 1)) || lList.size() <= 1)) {
                 int posit = lList.get(c);
                 int posit1 = lList.get(c + 1);
                 int bSize = block.getBlockSize();
@@ -307,7 +309,7 @@ public class MemManager {
                     merge = true;
                 }
                 c++;
-            } while (!((c > (lList.size() - 1)) || lList.size() <= 1));
+            }
             if (merge) {
                 merge = false;
                 i = -1;

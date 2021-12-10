@@ -1,0 +1,41 @@
+
+// Virginia Tech Honor Code Pledge:
+//
+// As a Hokie, I will conduct myself with honor and integrity at all times.
+// I will not lie, cheat, or steal, nor will I accept the actions of those who
+// do.
+// -- Khanh Pham <khanh19>
+// -- Pham Quoc Cuong (cpham006)
+
+/**
+ * class that test the method in KVPair
+ * 
+ * @author Khanh Pham <khanh19>
+ * @author Pham Quoc Cuong <cpham006>
+ * @version 9/20/2021
+ *
+ */
+public class KVPairTest extends student.TestCase {
+    @SuppressWarnings("rawtypes")
+    private KVPair rec;
+    @SuppressWarnings("rawtypes")
+    private KVPair rec1;
+    @SuppressWarnings("rawtypes")
+    private KVPair rec2;
+
+
+    /**
+     * method to set up the test methods
+     * runs before every test method
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void setUp() {
+        rec = new KVPair("cuong", 15);
+        rec1 = new KVPair("khanh", 20);
+        rec2 = new KVPair("Giang", 25);
+    }
+
+    public void testKey() {
+    	assertEquals("cuong", rec.getKey());
+    }
+}

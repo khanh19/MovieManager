@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Scanner;
 
 /**
  * {Project Description Here}
@@ -35,41 +36,67 @@ import java.io.FileReader;
 // letter of this restriction.
 
 public class MemMan {
-    /**
-     * @param args
-     *             Command line parameters
-     */
-    public static void main(String[] args) throws Exception {
-        // This is the main file for the program.
-        if (args.length < 3) {
-            System.out.println("Missing arguments. Must be 3");
-            System.exit(1);
-        }
-        BufferedReader input = new BufferedReader(new FileReader(args[2]));
-        try {
-            String line = input.readLine();
-            String[] command;
-            while (line != null) {
-                command = line.split(" ", 2);
+	/**
+	 * @param args Command line parameters
+	 */
+	public static void main(String[] args) throws Exception {
+		// This is the main file for the program.
+		if (args.length < 3) {
+			System.out.println("Missing arguments. Must be 3");
+			System.exit(1);
+		}
+		Scanner input = new Scanner(new FileReader(args[2]));
+		int size = Integer.parseInt(args[1]);
+		HashTable<String, Handle> hash = new HashTable<>(size);
+		int size2 = Integer.parseInt(args[0]);
+		MemManager man = new MemManager(size2);
+		String[] check;
+		while (input.hasNext()) {
+			String cuong = input.nextLine();
+			if(!cuong.isEmpty()) {
+				String splitStr = cuong.replaceAll("^\s+", "");                     
+				String delims = "[ <>\t]+";                     
+				check = splitStr.split(delims);
+				if(check[0].equals("add")) {
+					String output = "";
+					for(int i = 1; i < check.length; i++) {
+						output += check[i] + " ";
+					}
+					output = output.strip();
+					add(hash, output, man.insert(output.getBytes(), output.getBytes().length));
+				}
+				else if(check[0].equals("print")){
+					if(check[1].equals("hashtable")) {
+						hash.dump();
+					}
+					else {
+						man.dump();
+					}
+				}
+				else if(check[0].equals("update")) {
+					if(check[1].equals("add")) {
+						System.out.println("add");
+					}
+					else {
+						System.out.println("delete");
+					}
+				}
+				else if(check[0].equals("delete")) {
+					String output = "";
+					for(int i = 1; i < check.length; i++) {
+						output += check[i] + " ";
+					}
+					output = output.strip();
+					hash.delete(output);
+				}
+			}
+		}
+			
 
-                if (command[0].equals("add")) {
-                    // add command
-                } else if (command[0].equals("delete")) {
-                    // delete command
-                } else if (command[0].equals("update")) {
-                    // update command
-                } else {
-                    // print command
-                }
-                line = input.readLine();
-            }
+	}
 
-        } catch (Error e) {
-            System.out.println("System is invalid");
-        } finally {
-            input.close();
-        }
-
-    }
+	public static void add(HashTable<String, Handle> hash, String command, Handle hand) {
+		hash.add(command, hand);
+	}
 
 }

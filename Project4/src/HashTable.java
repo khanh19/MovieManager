@@ -137,7 +137,7 @@ public class HashTable<K extends Comparable<K>, V> {
         }
         table[position] = element;
         currSize++;
-        System.out.println("|" + key + "| is added to the Name database.");
+        System.out.println("|" + key + "| has been added to the Name database.");
         return true;
     }
 
