@@ -1,0 +1,46 @@
+import java.util.LinkedList;
+
+public class FreeBlock {
+    private LinkedList<Integer> positionList;
+    private int blockSize;
+
+    public FreeBlock(int blockSize) {
+        this.blockSize = blockSize;
+        this.positionList = new LinkedList<Integer>();
+    }
+
+    public LinkedList<Integer> getPositionList() {
+        return this.positionList;
+    }
+
+    public void setPositionList(LinkedList<Integer> positionList) {
+        this.positionList = positionList;
+    }
+
+    public int getBlockSize() {
+        return this.blockSize;
+    }
+
+    public void setBlockSize(int blockSize) {
+        this.blockSize = blockSize;
+    }
+
+    public void sortPositionList() {
+        LinkedList<Integer> lister = new LinkedList<Integer>();
+        while (this.getPositionList().size() > 0) {
+            int val = this.positionList.getFirst();
+            int k = 0;
+            while (k < this.positionList.size()) {
+                if (val > this.getPositionList().get(k)) {
+                    val = this.getPositionList().get(k);
+                }
+                k++;
+            }
+            this.getPositionList().remove(val);
+            lister.add(val);
+        }
+        this.setPositionList(lister);
+
+    }
+
+}
