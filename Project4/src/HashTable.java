@@ -129,7 +129,7 @@ public class HashTable<K extends Comparable<K>, V> {
                 break;
             }
             if (this.table[position].getKey().compareTo(key) == 0) {
-                System.out.println("|" + key + "| duplicates a record already in the Name database.");
+                //fix
                 return false;
             }
             position = (hash + i * i) % hashSize;
@@ -137,7 +137,7 @@ public class HashTable<K extends Comparable<K>, V> {
         }
         table[position] = element;
         currSize++;
-        System.out.println("|" + key + "| has been added to the Name database.");
+        //fix
         return true;
     }
 
@@ -158,13 +158,13 @@ public class HashTable<K extends Comparable<K>, V> {
                 V ele = this.table[position].getValue();
                 this.table[position] = deleted;
                 currSize -= 1;
-                System.out.println("|" + key + "| has been deleted from the Name database.");
+                //fix
                 return ele;
             }
             position = (hash + i * i) % hashSize;
             i++;
         }
-        System.out.println("|" + key + "| not deleted because it does not exist in the Name database.");
+        //fix
         return null;
     }
 

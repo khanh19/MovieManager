@@ -1,5 +1,6 @@
-import java.io.BufferedReader;
+
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -53,50 +54,195 @@ public class MemMan {
 		String[] check;
 		while (input.hasNext()) {
 			String cuong = input.nextLine();
-			if(!cuong.isEmpty()) {
-				String splitStr = cuong.replaceAll("^\s+", "");                     
-				String delims = "[ <>\t]+";                     
+			if (!cuong.isEmpty()) {
+				String splitStr = cuong.replaceAll("^\s+", "");
+				String delims = "[ <>\t]+";
 				check = splitStr.split(delims);
-				if(check[0].equals("add")) {
+				if (check[0].equals("add")) {
 					String output = "";
-					for(int i = 1; i < check.length; i++) {
+					for (int i = 1; i < check.length; i++) {
 						output += check[i] + " ";
 					}
 					output = output.strip();
-					add(hash, output, man.insert(output.getBytes(), output.getBytes().length));
-				}
-				else if(check[0].equals("print")){
-					if(check[1].equals("hashtable")) {
-						hash.dump();
+					if (hash.add(output, man.insert(output.getBytes(), output.getBytes().length))) {
+						System.out.println("|" + output + "| has been added to the Name database.");
+					} else {
+						System.out.println("|" + output + "| duplicates a record already" + " in the Name database.");
 					}
-					else {
+
+				} else if (check[0].equals("print")) {
+					if (check[1].equals("hashtable")) {
+						hash.dump();
+					} else {
 						man.dump();
 					}
-				}
-				else if(check[0].equals("update")) {
-					if(check[1].equals("add")) {
-						System.out.println("add");
+				} else if (check[0].equals("update")) {
+					if (check[1].equals("add")) {
+						ArrayList<Integer> checkSep = new ArrayList<Integer>();
+						boolean valid = false;
+						for (int i = 2; i < check.length; i++) {
+							if (check[i].equals("SEP")) {
+								checkSep.add(i);
+								valid = true;
+							}
+						}
+						if (valid) {
+							String name = "";
+							for (int i = 2; i < checkSep.get(0); i++) {
+								name = name + check[i];
+								if (i != (checkSep.get(0) - 1)) {
+									name = name + " ";
+								}
+							}
+
+							String fieldName = "";
+							for (int i = checkSep.get(0) + 1; i < checkSep.get(1); i++) {
+								fieldName = fieldName + check[i];
+
+								if (i != (checkSep.get(1) - 1)) {
+									fieldName = fieldName + " ";
+								}
+							}
+							String fieldValue = "";
+							for (int i = checkSep.get(1) + 1; i < check.length; i++) {
+								fieldValue = fieldValue + check[i];
+								if (i != (check.length - 1)) {
+									fieldValue = fieldValue + " ";
+								}
+							}
+							Handle handle = hash.get(name);
+							if (handle == null) {
+								System.out.println("|" + name + "| not updated because it does"
+										+ " not exist in the Name database.");
+							} else {
+								hash.delete(name);
+								String updateAdd = man.getRecord(handle);
+								man.remove(handle);
+								boolean hasField = false;
+
+								String[] temps = updateAdd.split("<SEP>");
+								for (int i = 0; i < temps.length; i++) {
+									if (i % 2 == 1 && temps[i].equals(fieldName)) {
+										hasField = true;
+
+									}
+								}
+								if (hasField) {
+									String temp1 = "";
+									for (int i = 0; i < temps.length; i++) {
+
+										if (!temps[i].equals(fieldName)) {
+											temp1 += temps[i] + "<SEP>";
+										} else {
+
+											i++;
+										}
+									}
+									temp1 = temp1.substring(0, temp1.length() - 5);
+									updateAdd = temp1;
+								}
+								updateAdd = updateAdd + "<SEP>" + fieldName + "<SEP>" + fieldValue;
+								Handle updatedHandle = man.insert(updateAdd.getBytes(), updateAdd.getBytes().length);
+								hash.add(name, updatedHandle);
+								System.out.println("Updated Record: |" + updateAdd + "|");
+
+							}
+						}
+
+					} else {
+						ArrayList<Integer> checkSep = new ArrayList<Integer>();
+						boolean isValid = false;
+						for (int i = 2; i < check.length; i++) {
+
+							if (check[i].equals("SEP")) {
+								checkSep.add(i);
+								isValid = true;
+							}
+						}
+						if (isValid) {
+							if (checkSep.size() != 0) {
+								String name = "";
+								for (int i = 2; i < checkSep.get(0); i++) {
+									name = name + check[i];
+									if (i != (checkSep.get(0) - 1)) {
+										name = name + " ";
+									}
+								}
+
+								String fieldName = "";
+								for (int i = checkSep.get(0) + 1; i < check.length; i++) {
+									if (check[i].equals("SEP")) {
+										check[i] = "<SEP>";
+									}
+									fieldName = fieldName + check[i];
+
+									if (i != (check.length - 1)) {
+										fieldName = fieldName + " ";
+									}
+								}
+
+								Handle handle = hash.get(name);
+								if (handle == null) {
+
+									System.out.print("|" + name + "| not updated because it does"
+											+ " not exist in the Name database." + "\n");
+								} else {
+
+									String deleteStr = name;
+
+									boolean hasField = false;
+									String[] temps = deleteStr.split("<SEP>");
+									for (int i = 0; i < temps.length; i++) {
+										if (i % 2 == 1 && temps[i].equals(fieldName)) {
+											hasField = true;
+
+										}
+									}
+
+									if (hasField) {
+										String temp1 = "";
+										for (int i = 0; i < temps.length; i++) {
+											if (!temps[i].equals(fieldName)) {
+												temp1 += temps[i] + "<SEP>";
+											} else {
+												i++;
+											}
+										}
+										temp1 = temp1.substring(0, temp1.length() - 5);
+										deleteStr = temp1;
+										man.remove(handle);
+										hash.delete(name);
+										Handle hanInsert = man.insert(deleteStr.getBytes(),
+												deleteStr.getBytes().length);
+										hash.add(name, hanInsert);
+										System.out.println("Updated Record: |" + deleteStr + "|");
+									} else {
+
+										System.out.println("|" + name + "| not updated" + " because the field |"
+												+ fieldName + "| does not exist");
+									}
+								}
+							}
+						}
 					}
-					else {
-						System.out.println("delete");
-					}
-				}
-				else if(check[0].equals("delete")) {
+				} else if (check[0].equals("delete")) {
 					String output = "";
-					for(int i = 1; i < check.length; i++) {
+					for (int i = 1; i < check.length; i++) {
 						output += check[i] + " ";
 					}
 					output = output.strip();
-					hash.delete(output);
+					if (hash.delete(output) != null) {
+						System.out.println("|" + output + "| has been deleted from the Name database.");
+					} else {
+						System.out.println(
+								"|" + output + "| not deleted because it does not exist in the Name database.");
+					}
+				} else {
+					System.out.print("");
 				}
 			}
 		}
-			
 
-	}
-
-	public static void add(HashTable<String, Handle> hash, String command, Handle hand) {
-		hash.add(command, hand);
 	}
 
 }
