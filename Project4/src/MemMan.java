@@ -63,7 +63,13 @@ public class MemMan {
 						output += check[i] + " ";
 					}
 					output = output.strip();
-					add(hash, output, man.insert(output.getBytes(), output.getBytes().length));
+					if (hash.get(output) != null) {
+						System.out.println("|" + output + "| duplicates a record already in the Name database.");
+					} else {
+
+						add(hash, output, man.insert(output.getBytes(), output.getBytes().length));
+					}
+
 				} else if (check[0].equals("print")) {
 					if (check[1].equals("hashtable")) {
 						hash.dump();

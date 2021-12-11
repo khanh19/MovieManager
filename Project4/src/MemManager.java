@@ -45,9 +45,11 @@ public class MemManager {
     public Handle insert(byte[] space, int size) {
         // define block size of record
         int bSize = 0;
-        for (int i = 0; Math.pow(2, i) < size; i++) {
-            bSize = (int) Math.pow(2, i);
+        int i = 0;
+        while (Math.pow(2, i) < size) {
+            i++;
         }
+        bSize = (int) Math.pow(2, i);
         int bloca = allocateBlock(bSize);
         int j = 0;
         while (j < size) {
@@ -78,9 +80,11 @@ public class MemManager {
 
     public void remove(Handle theHandle) {
         int bSize = 0;
-        for (int i = 0; Math.pow(2, i) < theHandle.getLen(); i++) {
-            bSize = (int) Math.pow(2, i);
+        int k = 0;
+        while (Math.pow(2, k) < theHandle.getLen()) {
+            k++;
         }
+        bSize = (int) Math.pow(2, k);
         int posit = theHandle.getPosition();
         for (int i = posit; i < posit + bSize; i++) {
             pool[i] = 0;
@@ -187,7 +191,7 @@ public class MemManager {
      */
     private void splitBlock(int requiredSize, FreeBlock free) {
         // noted check again
-        int position = free.getPositionList().getFirst();
+        int position = free.getPositionList().get(0);
         int size = free.getBlockSize();
         do {
             detachBlock(position, size);
@@ -210,7 +214,7 @@ public class MemManager {
             if (blocker.getBlockSize() == blockSize) {
                 blocker.getPositionList().add(position);
                 check = true;
-                break;
+                return check;
             }
         }
         FreeBlock newer = new FreeBlock(blockSize);
@@ -230,8 +234,8 @@ public class MemManager {
     private boolean detachBlock(int position, int blockSize) {
         for (FreeBlock blocker : freeList) {
             if (blocker.getBlockSize() == blockSize) {
-            	//just fix here
-                blocker.getPositionList().remove((Object)position);
+                // just fix here
+                blocker.getPositionList().remove((Object) position);
                 if (blocker.getPositionList().isEmpty()) {
                     freeList.remove(blocker);
                 }
@@ -294,7 +298,7 @@ public class MemManager {
             int c = 0;
             LinkedList<Integer> lList = freeList.get(i).getPositionList();
             FreeBlock block = freeList.get(i);
-            //fix here
+            // fix here
             while (!((c > (lList.size() - 1)) || lList.size() <= 1)) {
                 int posit = lList.get(c);
                 int posit1 = lList.get(c + 1);
